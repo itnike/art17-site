@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Арт 17 - Pandaplay copy </title>
-    <link rel="stylesheet" href="style.css">
-
+    <title>Арт 17 - Pandaplay copy</title>
     
+    <!-- Подключение внешних файлов -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Header -->
@@ -14,7 +15,7 @@
         <div class="container nav-container">
             <a href="#home" class="logo">АРТ<span>17</span></a>
             
-            <button class="mobile-menu-btn">
+            <button class="mobile-menu-btn" aria-label="Открыть меню">
                 <i class="fas fa-bars"></i>
             </button>
             
@@ -22,12 +23,10 @@
                 <li><a href="#home">Главная</a></li>
                 <li><a href="#about">О нас</a></li>
                 <li><a href="#services">Услуги</a></li>
-                <li><a href="#portfolio">Товары</a></li>
-                <li><a href="#process">Процесс</a></li>
+                <li><a href="#products">Товары</a></li>
+                <li><a href="#portfolio">Работы</a></li>
                 <li><a href="#contact">Контакты</a></li>
             </ul>
-            
-        
         </div>
     </header>
 
@@ -36,79 +35,54 @@
         <div class="container">
             <h1>PANDAPLAY</h1>
             <p>Профессиональный дизайн интерьеров от студии "Арт 17". Создаем уникальные пространства.</p>
-            <button class="cta-button" style="padding: 15px 40px; font-size: 1.1rem;" onclick="scrollToContact()">Бесплатная консультация</button>
+            <button class="cta-button" onclick="scrollToContact()">Бесплатная консультация</button>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" style="background: #f9f9f9;">
+    <section id="services" class="section-gray">
         <div class="container">
             <div class="section-title">
                 <h2>Наши услуги</h2>
-                <p>Полный спектр услуг </p>
+                <p>Полный спектр услуг</p>
             </div>
             
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-pencil-ruler"></i>
-                    </div>
-                    <h3>Дизайн-проект</h3>
-                    <p>Разработка концепции, планировочные решения, подбор материалов </p>
-                    <p style="margin-top: 15px; font-weight: bold; color: var(--secondary);">от 1 500 руб/м²</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <h3>3D-визуализация</h3>
-                    <p>Фотореалистичные изображения будущего интерьера </p>
-                    <p style="margin-top: 15px; font-weight: bold; color: var(--secondary);">от 800 руб/м²</p>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-clipboard-check"></i>
-                    </div>
-                    <h3>Авторский надзор</h3>
-                    <p>Контроль выполнения работ на объекте для точного воплощения проекта</p>
-                    <p style="margin-top: 15px; font-weight: bold; color: var(--secondary);">от 50 000 руб/мес</p>
-                </div>
+            <div id="services-container" class="services-grid">
+                <!-- Услуги загружаются динамически из products.json -->
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Preview -->
-    <section id="portfolio">
+    <!-- Products Section -->
+    <section id="products" class="section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Наши товары</h2>
+                <p>Качественное оборудование и мебель</p>
+            </div>
+            
+            <div id="products-container" class="products-grid">
+                <!-- Товары загружаются динамически из products.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="section-gray">
         <div class="container">
             <div class="section-title">
                 <h2>Наши работы</h2>
                 <p>Реализованные проекты, которые говорят сами за себя</p>
             </div>
             
-            <div class="portfolio-grid">
-                <div class="portfolio-item">
-                    <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?ixlib=rb-4.0.3" alt="игровое оборудование">
-                    <div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: white; padding: 15px; width: 100%;">
-                        <h3>игровое Оборудование</h3>
-                        <p>Калуга</p>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item">
-                    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3" alt="уличная мебель">
-                    <div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.7); color: white; padding: 15px; width: 100%;">
-                        <h3>уличная мебель</h3>
-                        <p>Калуга</p>
-                    </div>
-                </div>
+            <div id="portfolio-container" class="portfolio-grid">
+                <!-- Портфолио загружается динамически из products.json -->
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" style="background: var(--light);">
+    <section id="contact" class="section-light">
         <div class="container">
             <div class="section-title">
                 <h2>Свяжитесь с нами</h2>
@@ -118,22 +92,31 @@
             <div class="contact-form">
                 <form id="contactForm">
                     <div class="form-group">
-                        <input type="text" placeholder="Ваше имя" required>
+                        <input type="text" id="name" placeholder="Ваше имя" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="tel" placeholder="Телефон" required>
+                        <input type="tel" id="phone" placeholder="Телефон" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="email" placeholder="E-mail" required>
+                        <input type="email" id="email" placeholder="E-mail" required>
                     </div>
                     
                     <div class="form-group">
-                        <textarea placeholder="Опишите ваш проект" rows="5"></textarea>
+                        <select id="interest">
+                            <option value="">Что вас интересует?</option>
+                            <option value="service">Услуга</option>
+                            <option value="product">Товар</option>
+                            <option value="consultation">Консультация</option>
+                        </select>
                     </div>
                     
-                    <button type="submit" class="cta-button" style="width: 100%; padding: 18px;">Отправить заявку</button>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Опишите ваш проект" rows="5"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="cta-button">Отправить заявку</button>
                 </form>
             </div>
         </div>
@@ -143,37 +126,47 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div>
-                    <div class="footer-logo">АРТ<span style="color: var(--accent);">17</span></div>
-                    <p> Превращаем игры на открытом воздухе в яркие и необычные приключения. </p>
+                <div class="footer-column">
+                    <div class="footer-logo">АРТ<span>17</span></div>
+                    <p>Превращаем игры на открытом воздухе в яркие и необычные приключения.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-vk"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="ВКонтакте"><i class="fab fa-vk"></i></a>
+                        <a href="#" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 
-                <div>
+                <div class="footer-column">
                     <h3>Контакты</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Калуга Аэропортовский переулок 11 </p>
-                    <p><i class="fas fa-phone"></i> 8 (499) 688-63-54 </p>
-                    <p><i class="fas fa-envelope"></i> sales@pandaplay.ru </p>
+                    <p><i class="fas fa-map-marker-alt"></i> Калуга, Аэропортовский переулок 11</p>
+                    <p><i class="fas fa-phone"></i> 8 (499) 688-63-54</p>
+                    <p><i class="fas fa-envelope"></i> sales@pandaplay.ru</p>
                 </div>
                 
-                <div>
+                <div class="footer-column">
                     <h3>Часы работы</h3>
                     <p>Пн-Пт: 8:00 - 17:00</p>
                     <p>Сб: 8:00 - 16:00</p>
                     <p>Вс: выходной</p>
                 </div>
+                
+                <div class="footer-column">
+                    <h3>Быстрые ссылки</h3>
+                    <p><a href="#services">Услуги</a></p>
+                    <p><a href="#products">Товары</a></p>
+                    <p><a href="#portfolio">Наши работы</a></p>
+                    <p><a href="#contact">Консультация</a></p>
+                </div>
             </div>
             
-            <div style="text-align: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="footer-bottom">
                 <p>&copy; 2026 "Арт 17". Все права защищены.</p>
             </div>
         </div>
     </footer>
-<script src="script.js"></script>
+
+    <!-- Подключение JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
