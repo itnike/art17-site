@@ -261,15 +261,24 @@ footer {
 }
 
 .social-
+.products-header {
+    margin-bottom: 30px; /* Отступ от изображений */
+}
+
 .products-link {
+    display: inline-block; /* Не растягивает контейнер */
     text-decoration: none;
     color: inherit;
-    display: block;
-    padding: 15px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    transition: opacity 0.3s;
 }
 
 .products-link:hover {
-    background-color: #f0f0f0; /* Светло‑серый фон при наведении */
+    opacity: 0.8; /* Лёгкое затемнение при наведении */
+}
+
+/* Защита для изображений */
+.products-images img {
+    max-width: 100%; /* Не выходит за границы родителя */
+    height: auto; /* Сохраняет пропорции */
+    display: block; /* Убирает лишние пробелы под картинкой */
 }
