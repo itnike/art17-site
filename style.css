@@ -261,3 +261,15 @@ footer {
 }
 
 .social-
+.products-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.products-link:hover {
+    background-color: #f0f0f0; /* Светло‑серый фон при наведении */
+}
