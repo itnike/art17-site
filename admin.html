@@ -22,25 +22,25 @@
 
             <nav class="admin-nav">
                 <ul>
-                    <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                    <li><a href="#" class="nav-link active" onclick="switchSection('dashboard'); return false;">
                         <i class="fas fa-tachometer-alt"></i> Дашборд
                     </a></li>
-                    <li><a href="#services" class="nav-link" data-section="services">
+                    <li><a href="#" class="nav-link" onclick="switchSection('services'); return false;">
                         <i class="fas fa-concierge-bell"></i> Услуги
                     </a></li>
-                    <li><a href="#products" class="nav-link" data-section="products">
+                    <li><a href="#" class="nav-link" onclick="switchSection('products'); return false;">
                         <i class="fas fa-shopping-cart"></i> Товары
                     </a></li>
-                    <li><a href="#portfolio" class="nav-link" data-section="portfolio">
+                    <li><a href="#" class="nav-link" onclick="switchSection('portfolio'); return false;">
                         <i class="fas fa-images"></i> Портфолио
                     </a></li>
-                    <li><a href="#images" class="nav-link" data-section="images">
+                    <li><a href="#" class="nav-link" onclick="switchSection('images'); return false;">
                         <i class="fas fa-image"></i> Менеджер картинок
                     </a></li>
-                    <li><a href="#applications" class="nav-link" data-section="applications">
+                    <li><a href="#" class="nav-link" onclick="switchSection('applications'); return false;">
                         <i class="fas fa-inbox"></i> Заявки <span class="badge" id="app-count">0</span>
                     </a></li>
-                    <li><a href="#settings" class="nav-link" data-section="settings">
+                    <li><a href="#" class="nav-link" onclick="switchSection('settings'); return false;">
                         <i class="fas fa-cog"></i> Настройки
                     </a></li>
                 </ul>
@@ -65,16 +65,16 @@
             <!-- Header -->
             <header class="admin-header">
                 <div class="header-left">
-                    <button class="menu-toggle" id="menuToggle">
+                    <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">
                         <i class="fas fa-bars"></i>
                     </button>
                     <h2 id="pageTitle">Дашборд</h2>
                 </div>
                 <div class="header-right">
-                    <button class="btn btn-primary" id="saveAll">
+                    <button class="btn btn-primary" onclick="saveAll()">
                         <i class="fas fa-save"></i> Сохранить все изменения
                     </button>
-                    <button class="btn btn-secondary" id="exportData">
+                    <button class="btn btn-secondary" onclick="exportData()">
                         <i class="fas fa-download"></i> Экспорт данных
                     </button>
                 </div>
@@ -104,14 +104,12 @@
                             </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-card warning">
-                                <div class="stat-icon warning">
-                                    <i class="fas fa-images"></i>
-                                </div>
-                                <div class="stat-info">
-                                    <h3 id="portfolio-count">0</h3>
-                                    <p>Работ в портфолио</p>
-                                </div>
+                            <div class="stat-icon warning">
+                                <i class="fas fa-images"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="portfolio-count">0</h3>
+                                <p>Работ в портфолио</p>
                             </div>
                         </div>
                         <div class="stat-card">
@@ -128,19 +126,19 @@
                     <div class="quick-actions">
                         <h3>Быстрые действия</h3>
                         <div class="actions-grid">
-                            <button class="action-btn" data-action="add-service">
+                            <button class="action-btn" onclick="addService()">
                                 <i class="fas fa-plus-circle"></i>
                                 <span>Добавить услугу</span>
                             </button>
-                            <button class="action-btn" data-action="add-product">
+                            <button class="action-btn" onclick="addProduct()">
                                 <i class="fas fa-plus-circle"></i>
                                 <span>Добавить товар</span>
                             </button>
-                            <button class="action-btn" data-action="upload-image">
+                            <button class="action-btn" onclick="switchSection('images')">
                                 <i class="fas fa-upload"></i>
                                 <span>Загрузить картинку</span>
                             </button>
-                            <button class="action-btn" data-action="backup">
+                            <button class="action-btn" onclick="createBackup()">
                                 <i class="fas fa-database"></i>
                                 <span>Создать бэкап</span>
                             </button>
@@ -159,7 +157,7 @@
                 <section id="services" class="content-section">
                     <div class="section-header">
                         <h3>Управление услугами</h3>
-                        <button class="btn btn-success" id="addServiceBtn">
+                        <button class="btn btn-success" onclick="addService()">
                             <i class="fas fa-plus"></i> Добавить услугу
                         </button>
                     </div>
@@ -173,7 +171,7 @@
                 <section id="products" class="content-section">
                     <div class="section-header">
                         <h3>Управление товарами</h3>
-                        <button class="btn btn-success" id="addProductBtn">
+                        <button class="btn btn-success" onclick="addProduct()">
                             <i class="fas fa-plus"></i> Добавить товар
                         </button>
                     </div>
@@ -208,7 +206,7 @@
                             <i class="fas fa-cloud-upload-alt"></i>
                             <p>Перетащите картинки сюда или</p>
                             <input type="file" id="imageUpload" multiple accept="image/*" style="display: none;">
-                            <button class="btn btn-primary" id="browseBtn">Выберите файлы</button>
+                            <button class="btn btn-primary" id="browseBtn" onclick="document.getElementById('imageUpload').click()">Выберите файлы</button>
                             <p class="upload-hint">Поддерживаются: JPG, PNG, GIF. Макс. размер: 5MB</p>
                         </div>
                     </div>
@@ -223,13 +221,13 @@
                     <div class="section-header">
                         <h3>Заявки с сайта</h3>
                         <div class="filter-controls">
-                            <select id="statusFilter" class="form-select">
+                            <select id="statusFilter" class="form-select" onchange="filterApplications(this.value)">
                                 <option value="all">Все заявки</option>
                                 <option value="new">Новые</option>
                                 <option value="processed">В работе</option>
                                 <option value="completed">Завершены</option>
                             </select>
-                            <button class="btn btn-secondary" id="clearApplications">
+                            <button class="btn btn-secondary" onclick="clearOldApplications()">
                                 <i class="fas fa-trash"></i> Очистить старые
                             </button>
                         </div>
@@ -285,10 +283,10 @@
                         </div>
 
                         <div class="form-actions">
-                            <button class="btn btn-primary" id="saveSettings">
+                            <button class="btn btn-primary" onclick="saveSettings()">
                                 <i class="fas fa-save"></i> Сохранить настройки
                             </button>
-                            <button class="btn btn-secondary" id="resetSettings">
+                            <button class="btn btn-secondary" onclick="resetSettings()">
                                 <i class="fas fa-undo"></i> Сбросить к заводским
                             </button>
                         </div>
@@ -302,7 +300,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Редактирование услуги</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" onclick="closeModal('serviceModal')">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="serviceForm">
@@ -331,9 +329,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Отмена</button>
-                    <button class="btn btn-danger" id="deleteServiceBtn" style="display: none;">Удалить</button>
-                    <button class="btn btn-primary" id="saveServiceBtn">Сохранить</button>
+                    <button class="btn btn-secondary" onclick="closeModal('serviceModal')">Отмена</button>
+                    <button class="btn btn-danger" id="deleteServiceBtn" onclick="deleteService()" style="display: none;">Удалить</button>
+                    <button class="btn btn-primary" onclick="saveService()">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -342,7 +340,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3>Редактирование товара</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
                 </div>
                 <div class="modal-body">
                     <form id="productForm">
@@ -366,8 +364,8 @@
                         <div class="form-group">
                             <label>URL картинки *</label>
                             <div class="image-url-input">
-                                <input type="text" id="productImage" class="form-input" required>
-                                <button type="button" class="btn btn-small" id="browseImagesBtn">
+                                <input type="text" id="productImage" class="form-input" required oninput="updateImagePreview()">
+                                <button type="button" class="btn btn-small" onclick="openImageBrowser()">
                                     <i class="fas fa-image"></i> Выбрать
                                 </button>
                             </div>
@@ -398,9 +396,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Отмена</button>
-                    <button class="btn btn-danger" id="deleteProductBtn" style="display: none;">Удалить</button>
-                    <button class="btn btn-primary" id="saveProductBtn">Сохранить</button>
+                    <button class="btn btn-secondary" onclick="closeModal('productModal')">Отмена</button>
+                    <button class="btn btn-danger" id="deleteProductBtn" onclick="deleteProduct()" style="display: none;">Удалить</button>
+                    <button class="btn btn-primary" onclick="saveProduct()">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -409,7 +407,7 @@
             <div class="modal-content large">
                 <div class="modal-header">
                     <h3>Выбор картинки</h3>
-                    <button class="modal-close">&times;</button>
+                    <button class="modal-close" onclick="closeModal('imageBrowserModal')">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="image-browser" id="imageBrowser">
@@ -417,8 +415,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary modal-close">Отмена</button>
-                    <button class="btn btn-primary" id="selectImageBtn">Выбрать</button>
+                    <button class="btn btn-secondary" onclick="closeModal('imageBrowserModal')">Отмена</button>
+                    <button class="btn btn-primary" onclick="selectImage()">Выбрать</button>
                 </div>
             </div>
         </div>
