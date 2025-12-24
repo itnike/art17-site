@@ -1,6 +1,6 @@
 // ===== КОНФИГУРАЦИЯ =====
 const ADMIN_CONFIG = {
-    STORAGE_KEY: 'art17_admin_data', // ВСЕ данные хранятся в одном ключе!
+    STORAGE_KEY: 'art17_admin_data',
     APPLICATIONS_KEY: 'art17_applications',
     IMAGES_KEY: 'art17_images'
 };
@@ -8,23 +8,33 @@ const ADMIN_CONFIG = {
 // ===== STATE MANAGEMENT =====
 class AdminState {
     constructor() {
-        this.data = this.loadData();
+        const loadedData = this.loadData();
+        
+        this.data = {
+            services: loadedData.services || [],
+            products: loadedData.products || []
+        };
+        
         this.images = this.loadImages();
         this.applications = JSON.parse(localStorage.getItem(ADMIN_CONFIG.APPLICATIONS_KEY)) || [];
         this.currentSection = 'dashboard';
+        
+        console.log('✅ State инициализирован:', this.data);
     }
 
     loadData() {
         try {
             const stored = localStorage.getItem(ADMIN_CONFIG.STORAGE_KEY);
             if (stored) {
-                console.log('✅ Данные загружены:', JSON.parse(stored));
-                return JSON.parse(stored);
+                const parsed = JSON.parse(stored);
+                return {
+                    services: Array.isArray(parsed.services) ? parsed.services : [],
+                    products: Array.isArray(parsed.products) ? parsed.products : []
+                };
             }
-            // Начальная структура ВАЖНА!
             return { services: [], products: [] };
         } catch (error) {
-            console.error('Ошибка загрузки:', error);
+            console.error('❌ Ошибка загрузки:', error);
             return { services: [], products: [] };
         }
     }
@@ -34,7 +44,7 @@ class AdminState {
             const stored = localStorage.getItem(ADMIN_CONFIG.IMAGES_KEY);
             return stored ? JSON.parse(stored) : [];
         } catch (error) {
-            console.error('Ошибка загрузки изображений:', error);
+            console.error('❌ Ошибка загрузки изображений:', error);
             return [];
         }
     }
@@ -46,7 +56,7 @@ class AdminState {
             this.showNotification('Данные сохранены!', 'success');
             return true;
         } catch (error) {
-            console.error('Ошибка сохранения:', error);
+            console.error('❌ Ошибка сохранения:', error);
             this.showNotification('Ошибка сохранения', 'error');
             return false;
         }
@@ -57,7 +67,7 @@ class AdminState {
             localStorage.setItem(ADMIN_CONFIG.IMAGES_KEY, JSON.stringify(this.images));
             return true;
         } catch (error) {
-            console.error('Ошибка сохранения изображений:', error);
+            console.error('❌ Ошибка сохранения изображений:', error);
             return false;
         }
     }
@@ -73,10 +83,10 @@ class AdminState {
             
             this.data.services.push(newService);
             this.saveData();
-            console.log('Услуга добавлена:', newService);
+            console.log('✅ Услуга добавлена:', newService);
             return newService;
         } catch (error) {
-            console.error('Ошибка добавления услуги:', error);
+            console.error('❌ Ошибка добавления услуги:', error);
             return null;
         }
     }
@@ -91,12 +101,12 @@ class AdminState {
                     features: updates.features ? updates.features.split('\n').filter(f => f.trim()) : this.data.services[index].features
                 };
                 this.saveData();
-                console.log('Услуга обновлена:', this.data.services[index]);
+                console.log('✅ Услуга обновлена');
                 return true;
             }
             return false;
         } catch (error) {
-            console.error('Ошибка обновления услуги:', error);
+            console.error('❌ Ошибка обновления услуги:', error);
             return false;
         }
     }
@@ -107,12 +117,12 @@ class AdminState {
             if (index !== -1) {
                 this.data.services.splice(index, 1);
                 this.saveData();
-                console.log('Услуга удалена');
+                console.log('✅ Услуга удалена');
                 return true;
             }
             return false;
         } catch (error) {
-            console.error('Ошибка удаления услуги:', error);
+            console.error('❌ Ошибка удаления услуги:', error);
             return false;
         }
     }
@@ -123,7 +133,6 @@ class AdminState {
             const newProduct = {
                 ...product,
                 id: Date.now(),
-                // Важно: сохраняем showInPortfolio как булево значение
                 showInPortfolio: product.showInPortfolio === 'true' || product.showInPortfolio === true,
                 specs: {
                     material: product.material || '',
@@ -135,10 +144,10 @@ class AdminState {
             
             this.data.products.push(newProduct);
             this.saveData();
-            console.log('Товар добавлен:', newProduct);
+            console.log('✅ Товар добавлен:', newProduct);
             return newProduct;
         } catch (error) {
-            console.error('Ошибка добавления товара:', error);
+            console.error('❌ Ошибка добавления товара:', error);
             return null;
         }
     }
@@ -150,7 +159,6 @@ class AdminState {
                 this.data.products[index] = {
                     ...this.data.products[index],
                     ...updates,
-                    // Важно: сохраняем showInPortfolio как булево значение
                     showInPortfolio: updates.showInPortfolio === 'true' || updates.showInPortfolio === true,
                     specs: {
                         material: updates.material || this.data.products[index].specs.material,
@@ -161,12 +169,12 @@ class AdminState {
                 };
                 
                 this.saveData();
-                console.log('Товар обновлен:', this.data.products[index]);
+                console.log('✅ Товар обновлен');
                 return true;
             }
             return false;
         } catch (error) {
-            console.error('Ошибка обновления товара:', error);
+            console.error('❌ Ошибка обновления товара:', error);
             return false;
         }
     }
@@ -177,12 +185,12 @@ class AdminState {
             if (index !== -1) {
                 this.data.products.splice(index, 1);
                 this.saveData();
-                console.log('Товар удален');
+                console.log('✅ Товар удален');
                 return true;
             }
             return false;
         } catch (error) {
-            console.error('Ошибка удаления товара:', error);
+            console.error('❌ Ошибка удаления товара:', error);
             return false;
         }
     }
@@ -254,6 +262,13 @@ class UIManager {
         const container = this.elements.servicesList;
         if (!container) return;
         
+        // ПРОВЕРКА ДАННЫХ
+        if (!this.state.data || !Array.isArray(this.state.data.services)) {
+            console.error('❌ Ошибка: services не является массивом');
+            container.innerHTML = '<p>Ошибка загрузки услуг</p>';
+            return;
+        }
+        
         if (this.state.data.services.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
@@ -271,10 +286,10 @@ class UIManager {
                     <i class="fas ${service.icon || 'fa-paint-brush'}"></i>
                 </div>
                 <div class="item-content">
-                    <h4>${service.name}</h4>
-                    <p>${service.description}</p>
+                    <h4>${service.name || 'Без названия'}</h4>
+                    <p>${service.description || 'Без описания'}</p>
                     <div class="item-meta">
-                        <span class="price">${service.price}</span>
+                        <span class="price">${service.price || 'Цена не указана'}</span>
                         <span class="features">${service.features?.length || 0} особенностей</span>
                     </div>
                 </div>
@@ -295,6 +310,12 @@ class UIManager {
         const container = this.elements.productsList;
         if (!container) return;
         
+        if (!this.state.data || !Array.isArray(this.state.data.products)) {
+            console.error('❌ Ошибка: products не является массивом');
+            container.innerHTML = '<p>Ошибка загрузки товаров</p>';
+            return;
+        }
+        
         if (this.state.data.products.length === 0) {
             container.innerHTML = `
                 <div class="empty-state">
@@ -310,16 +331,15 @@ class UIManager {
             <div class="product-item" data-id="${product.id}">
                 <div class="product-image-small">
                     <img src="${product.image || 'https://via.placeholder.com/200'}" 
-                         alt="${product.name}" 
+                         alt="${product.name || 'Товар'}" 
                          onerror="this.src='https://via.placeholder.com/200'">
                 </div>
                 <div class="item-content">
-                    <h4>${product.name}</h4>
-                    <p>${product.description}</p>
+                    <h4>${product.name || 'Товар'}</h4>
+                    <p>${product.description || 'Без описания'}</p>
                     <div class="item-meta">
-                        <span class="price">${product.price}</span>
-                        <span class="category">${product.category}</span>
-                        <span class="location">${product.location}</span>
+                        <span class="price">${product.price || 'Цена не указана'}</span>
+                        <span class="category">${product.category || 'Без категории'}</span>
                         <span class="portfolio-badge ${product.showInPortfolio ? 'active' : ''}">
                             ${product.showInPortfolio ? 'В портфолио' : 'Не в портфолио'}
                         </span>
@@ -333,28 +353,6 @@ class UIManager {
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
-            </div>
-        `).join('');
-    }
-
-    // === РЕНДЕРИНГ ВЫБОРА ПОРТФОЛИО ===
-    renderPortfolioSelection() {
-        const container = this.elements.portfolioSelection;
-        if (!container) return;
-        
-        if (this.state.data.products.length === 0) {
-            container.innerHTML = '<p>Нет товаров для выбора</p>';
-            return;
-        }
-
-        container.innerHTML = this.state.data.products.map(product => `
-            <div class="portfolio-checkbox">
-                <input type="checkbox" id="portfolio-${product.id}" 
-                       ${product.showInPortfolio ? 'checked' : ''}
-                       onchange="window.adminApp.state.togglePortfolio(${product.id}, this.checked)">
-                <label for="portfolio-${product.id}">
-                    ${product.name} - ${product.price}
-                </label>
             </div>
         `).join('');
     }
@@ -387,7 +385,6 @@ class EventManager {
     }
 
     switchSection(sectionId) {
-        // Навигация
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
             if (link.dataset.section === sectionId) {
@@ -395,7 +392,6 @@ class EventManager {
             }
         });
 
-        // Контент
         document.querySelectorAll('.content-section').forEach(section => {
             section.classList.remove('active');
             if (section.id === sectionId) {
@@ -403,18 +399,14 @@ class EventManager {
             }
         });
 
-        // Обновление UI для секции
         if (sectionId === 'services') {
             this.ui.renderServices();
         } else if (sectionId === 'products') {
             this.ui.renderProducts();
-        } else if (sectionId === 'portfolio') {
-            this.ui.renderPortfolioSelection();
         }
     }
 
     setupModals() {
-        // Закрытие модалок
         document.querySelectorAll('.modal-close').forEach(btn => {
             btn.addEventListener('click', function() {
                 const modal = this.closest('.modal');
@@ -424,7 +416,6 @@ class EventManager {
             });
         });
 
-        // Закрытие по клику на фон
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -435,7 +426,7 @@ class EventManager {
     }
 
     setupForms() {
-        // ===== ФОРМА УСЛУГИ =====
+        // ФОРМА УСЛУГИ
         document.getElementById('saveServiceBtn')?.addEventListener('click', () => {
             const id = document.getElementById('serviceId').value;
             const serviceData = {
@@ -467,7 +458,7 @@ class EventManager {
             }
         });
 
-        // ===== ФОРМА ТОВАРА =====
+        // ФОРМА ТОВАРА
         document.getElementById('saveProductBtn')?.addEventListener('click', () => {
             const id = document.getElementById('productId').value;
             const productData = {
@@ -507,17 +498,10 @@ class EventManager {
     }
 
     setupButtons() {
-        // Сохранить всё
         document.getElementById('saveAll')?.addEventListener('click', () => {
             this.state.saveData();
         });
 
-        // Экспорт
-        document.getElementById('exportData')?.addEventListener('click', () => {
-            this.exportData();
-        });
-
-        // Добавить услугу
         document.getElementById('addServiceBtn')?.addEventListener('click', () => {
             document.getElementById('serviceForm').reset();
             document.getElementById('serviceId').value = '';
@@ -525,19 +509,17 @@ class EventManager {
             document.getElementById('serviceModal').classList.add('active');
         });
 
-        // Добавить товар
         document.getElementById('addProductBtn')?.addEventListener('click', () => {
             document.getElementById('productForm').reset();
             document.getElementById('productId').value = '';
-            document.getElementById('productLocation').value = 'В наличии';
             document.getElementById('deleteProductBtn').style.display = 'none';
             document.getElementById('productModal').classList.add('active');
         });
     }
 
     setupEventDelegation() {
-        // Редактирование услуги
         document.addEventListener('click', (e) => {
+            // Редактирование услуги
             if (e.target.closest('.edit-service')) {
                 const id = parseInt(e.target.closest('.edit-service').dataset.id);
                 const service = this.state.data.services.find(s => s.id === id);
@@ -581,7 +563,6 @@ class EventManager {
                     document.getElementById('productWarranty').value = product.specs?.warranty || '';
                     document.getElementById('productSize').value = product.specs?.size || '';
                     
-                    // Чекбокс для портфолио
                     const portfolioCheckbox = document.getElementById('productInPortfolio');
                     if (portfolioCheckbox) {
                         portfolioCheckbox.checked = product.showInPortfolio || false;
@@ -603,29 +584,9 @@ class EventManager {
             }
         });
     }
-
-    exportData() {
-        const data = {
-            services: this.state.data.services,
-            products: this.state.data.products,
-            exportDate: new Date().toISOString()
-        };
-
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `art17-backup-${new Date().toISOString().slice(0, 10)}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        this.state.showNotification('Данные экспортированы!');
-    }
 }
 
-// ===== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ =====
+// ===== ИНИЦИАЛИЗАЦИЯ =====
 class AdminApp {
     constructor() {
         this.state = new AdminState();
@@ -636,14 +597,12 @@ class AdminApp {
     }
 
     init() {
-        console.log('AdminApp запущен');
+        console.log('✅ AdminApp запущен');
         
-        // Начальная загрузка
         this.ui.renderServices();
         this.ui.renderProducts();
         this.ui.updateDashboard();
         
-        // Меню для мобильных
         document.getElementById('menuToggle')?.addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
         });
